@@ -2,6 +2,7 @@ import pygame
 from pygame import Surface
 
 from game_settings import Settings
+import game_functions as gf
 
 
 def run_game() -> None:
@@ -11,7 +12,8 @@ def run_game() -> None:
                                                settings.screen_height))
     
     while True:
-        pass
+        gf.check_events()
+        gf.update_screen()
 
 
 if __name__ == "__main__":
