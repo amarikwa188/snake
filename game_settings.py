@@ -6,3 +6,5 @@ class Settings:
         self.bg_color: tuple[int,int,int] = (240,240,200)
         self.head_color: tuple[int,int,int] = (0,0,0)
         self.body_color: tuple[int,int,int] = (100,100,100)
+
+        self.snake_size: int = 10

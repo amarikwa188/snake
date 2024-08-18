@@ -3,14 +3,39 @@ import pygame
 
 from pygame import Surface
 from game_settings import Settings
+from snake import Snake
+
+from pygame.event import Event
 
 
-def check_events() -> None:
+def check_events(snake: Snake) -> None:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            check_keydown_events(event, snake)
 
 
-def update_screen(settings: Settings, screen: Surface) -> None:
+def check_keydown_events(event: Event, snake: Snake) -> None:
+    if event.key == pygame.K_UP:
+        snake.speed_x = 0
+        snake.speed_y = -snake.size
+    elif event.key == pygame.K_DOWN:
+        snake.speed_x = 0
+        snake.speed_y = snake.size
+    elif event.key == pygame.K_RIGHT:
+        snake.speed_x = snake.size
+        snake.speed_y = 0
+    elif event.key == pygame.K_LEFT:
+        snake.speed_x = -snake.size
+        snake.speed_y = 0
+        
+    
+def spawn_fruit() -> None:
+    pass
+
+
+def update_screen(settings: Settings, screen: Surface, snake: Snake) -> None:
     screen.fill(settings.bg_color)
+    snake.draw_snake()
     pygame.display.flip()
