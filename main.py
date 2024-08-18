@@ -23,7 +23,7 @@ def run_game() -> None:
 
     while True:
         clock.tick(snake.size//2)
-        gf.check_events(snake)
+        gf.check_events(snake, ui_handler)
         snake.update()
         gf.update_screen(settings, screen, ui_handler, scene_manager, snake)
 
