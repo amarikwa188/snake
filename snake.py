@@ -22,8 +22,8 @@ class Snake:
         new_x = self.head.x_pos + self.speed_x
         new_y = self.head.y_pos + self.speed_y
 
-        new_head.x_pos = new_x
-        new_head.y_pos = new_y
+        new_head.x_pos = new_x % self.settings.screen_width
+        new_head.y_pos = new_y % self.settings.screen_height
 
         new_head.next = self.head
         self.head = new_head
