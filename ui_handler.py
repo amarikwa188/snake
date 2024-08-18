@@ -21,6 +21,9 @@ class UIHandler:
             SysFont(None, 50)
         self.score_color: tuple[int,int,int] = self.settings.score_color
 
+        self.game_over_font: Font = pygame.font.SysFont(None, 60)
+        self.final_score_font: Font = pygame.font.SysFont(None, 40)
+
         self.score: int = 0
         self.moving: bool = False
 
@@ -28,6 +31,9 @@ class UIHandler:
     def draw_ui(self) -> None:
         if self.scene.game_screen_active:
             self.game_display()
+
+        if self.scene.end_screen_active:
+            self.end_screen_display()
 
 
     def game_display(self) -> None:
@@ -75,4 +81,24 @@ class UIHandler:
         self.screen.blit(image2, image2_rect)
 
     def end_screen_display(self) -> None:
-        pass
+        self.display_game_over()
+
+
+    def display_game_over(self) -> None:
+        text: str = "GAME OVER"
+        image: Surface = self.game_over_font.render(text, True, (100,100,100))
+        image_rect: Rect = image.get_rect()
+        image_rect.centerx = self.screen_rect.centerx
+        image_rect.centery = 60
+
+        self.screen.blit(image, image_rect)
+
+        score: str = f"Final Score: {self.score}"
+        image2: Surface = self.final_score_font.render(score, True, 
+                                                       (100,100,100))
+        image2_rect: Rect = image2.get_rect()
+        image2_rect.centerx = self.screen_rect.centerx
+        image2_rect.centery = 105
+
+        self.screen.blit(image2, image2_rect)
+    

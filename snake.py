@@ -15,6 +15,7 @@ class Node:
 
         self.next: Node | None = None
 
+
 class Snake:
     def __init__(self, settings: Settings, screen: Surface,
                  ui: UIHandler, scene: SceneManager) -> None:
@@ -33,17 +34,33 @@ class Snake:
         self.fruit: tuple[int,int] = (0,0)
         self.spawn_fruit()
 
+
     def update(self) -> None:
-        # add new head
-        new_head: Node = Node(self.settings)
+        # get new position
         new_x = self.head.x_pos + self.speed_x
         new_y = self.head.y_pos + self.speed_y
+
+        # check if out of bounds
+        out_of_bounds_x: bool = self.settings.screen_width < new_x or \
+                                new_x < 0
+        out_of_bounds_y: bool = self.settings.screen_height < new_y or \
+                                new_y < 0
+        
+        if out_of_bounds_x or out_of_bounds_y:
+            self.scene.game_screen_active = False
+            self.scene.end_screen_active = True
+            return
+
+        # add new head
+        new_head: Node = Node(self.settings)
 
         new_head.x_pos = new_x
         new_head.y_pos = new_y
 
         new_head.next = self.head
         self.head = new_head
+
+        
 
         # delete the tail or add
         if self.length == self.current_length:
@@ -60,17 +77,6 @@ class Snake:
             self.length += 1
             self.ui.score += 1
             self.spawn_fruit()
-
-        # check if out of bounds
-        out_of_bounds_x: bool = self.settings.screen_width < self.head.x_pos or \
-                                self.head.x_pos < 0
-        out_of_bounds_y: bool = self.settings.screen_height < self.head.y_pos or \
-                                self.head.y_pos < 0
-        
-        if out_of_bounds_x or out_of_bounds_y:
-            self.scene.game_screen_active = False
-            self.scene.end_screen_active = True
-            return
 
         # check for collision with tail
         if not self.head.next:
