@@ -74,4 +74,5 @@ class UIHandler:
         self.screen.blit(image1, image1_rect)
         self.screen.blit(image2, image2_rect)
 
-    
+    def end_screen_display(self) -> None:
+        pass
