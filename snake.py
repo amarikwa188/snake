@@ -1,8 +1,17 @@
+import random as rng
+
 import pygame
 from pygame import Surface, Rect
 
 from game_settings import Settings
 
+
+class Node:
+    def __init__(self, settings: Settings) -> None:
+        self.x_pos: int = settings.screen_width // 2
+        self.y_pos: int = settings.screen_height // 2
+
+        self.next: Node | None = None
 
 class Snake:
     def __init__(self, settings: Settings, screen: Surface) -> None:
@@ -15,6 +24,8 @@ class Snake:
         self.speed_x, self.speed_y = 0, 0
 
         self.head: Node = Node(self.settings)
+
+        self.fruit: tuple[int,int] = (0,0)
 
     def update(self) -> None:
         # add new head
@@ -38,13 +49,25 @@ class Snake:
         else:
             self.current_length += 1
 
+        # check for fruit
+        if (new_x, new_y) == self.fruit:
+            self.length += 1
+            self.spawn_fruit()
+            
+
     def draw_snake(self) -> None:
+        # draw fruit
+        fruit_rect: Rect = Rect(0,0, self.size, self.size)
+        fruit_rect.x, fruit_rect.y = self.fruit[0], self.fruit[1]
+        pygame.draw.rect(self.screen, self.settings.fruit_color, fruit_rect)
+
+        # draw snake
         current_node: Node = self.head
 
         while current_node:
             rect: Rect = Rect(0,0, self.size, self.size)
-            rect.centerx = current_node.x_pos
-            rect.centery = current_node.y_pos
+            rect.x = current_node.x_pos
+            rect.y = current_node.y_pos
 
             color: tuple[int,int,int] = self.settings.head_color if \
                                         current_node == self.head else \
@@ -54,9 +77,13 @@ class Snake:
             current_node = current_node.next
 
 
-class Node:
-    def __init__(self, settings: Settings) -> None:
-        self.x_pos: int = settings.screen_width // 2
-        self.y_pos: int = settings.screen_height // 2
+    def spawn_fruit(self) -> None:
+        current_pos: tuple[int,int] = self.fruit
+        new_x: int = rng.randint(0,29) * 10
+        new_y: int = rng.randint(0,19) * 10
 
-        self.next: Node | None = None
+        while current_pos == (new_x, new_y):
+            new_x: int = rng.randint(0,29) * 10
+            new_y: int = rng.randint(0,19) * 10
+
+        self.fruit = (new_x, new_y)

@@ -32,10 +32,6 @@ def check_keydown_events(event: Event, snake: Snake) -> None:
     elif event.key == pygame.K_SPACE:
         snake.length += 1
 
-    
-def spawn_fruit() -> None:
-    pass
-
 
 def update_screen(settings: Settings, screen: Surface, snake: Snake) -> None:
     screen.fill(settings.bg_color)
