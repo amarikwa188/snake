@@ -7,6 +7,7 @@ from pygame.event import Event
 from game_settings import Settings
 from snake import Snake
 from ui_handler import UIHandler
+from scene_manager import SceneManager
 
 
 def check_events(snake: Snake) -> None:
@@ -33,8 +34,9 @@ def check_keydown_events(event: Event, snake: Snake) -> None:
 
 
 def update_screen(settings: Settings, screen: Surface, ui: UIHandler,
-                  snake: Snake) -> None:
+                  scene: SceneManager, snake: Snake) -> None:
     screen.fill(settings.bg_color)
     ui.draw_ui()
-    snake.draw_snake()
+    if scene.game_screen_active:
+        snake.draw_snake()
     pygame.display.flip()

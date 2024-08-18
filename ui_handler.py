@@ -3,20 +3,18 @@ from pygame import Surface, Rect
 from pygame.font import Font
 
 from game_settings import Settings
-
+from scene_manager import SceneManager
 
 class UIHandler:
-    def __init__(self, settings: Settings, screen: Surface) -> None:
+    def __init__(self, settings: Settings, screen: Surface, 
+                 scene: SceneManager) -> None:
         self.settings: Settings = settings
+        self.scene: SceneManager = scene
         self.screen: Surface = screen
         self.screen_rect: Rect = self.screen.get_rect()
 
-        # self.score_font_single: Font = pygame.font.\
-        #     Font("fonts/ARCADE.TTF", 300)
         self.score_font_single: Font = pygame.font.\
             SysFont(None, 300)
-        # self.score_font_double: Font = pygame.font.\
-        #     Font("fonts/ARCADE.TTF", 260)
         self.score_font_double: Font = pygame.font.\
              SysFont(None, 260)
         self.score_color: tuple[int,int,int] = self.settings.score_color
@@ -25,7 +23,8 @@ class UIHandler:
 
 
     def draw_ui(self) -> None:
-        self.display_score()
+        if self.scene.game_screen_active:
+            self.display_score()
 
 
     def display_score(self) -> None:

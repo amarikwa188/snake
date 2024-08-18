@@ -5,6 +5,7 @@ from pygame import Surface, Rect
 
 from game_settings import Settings
 from ui_handler import UIHandler
+from scene_manager import SceneManager
 
 
 class Node:
@@ -16,10 +17,11 @@ class Node:
 
 class Snake:
     def __init__(self, settings: Settings, screen: Surface,
-                 ui: UIHandler) -> None:
+                 ui: UIHandler, scene: SceneManager) -> None:
         self.settings: Settings = settings
         self.screen: Surface = screen
         self.ui: UIHandler = ui
+        self.scene: SceneManager = scene
 
         self.size: int =  self.settings.snake_size
         self.length: int = 1
@@ -58,6 +60,18 @@ class Snake:
             self.length += 1
             self.ui.score += 1
             self.spawn_fruit()
+
+        # check for collision with tail
+        if not self.head.next:
+            return
+        
+        current_node: Node | None = self.head.next
+        while current_node:
+            if (new_x,new_y) == (current_node.x_pos,current_node.y_pos):
+                self.scene.game_screen_active = False
+                self.scene.end_screen_active = True
+                return
+            current_node = current_node.next
             
 
     def draw_snake(self) -> None:
