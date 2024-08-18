@@ -29,7 +29,9 @@ def check_keydown_events(event: Event, snake: Snake) -> None:
     elif event.key == pygame.K_LEFT:
         snake.speed_x = -snake.size
         snake.speed_y = 0
-        
+    elif event.key == pygame.K_SPACE:
+        snake.length += 1
+
     
 def spawn_fruit() -> None:
     pass

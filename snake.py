@@ -11,9 +11,22 @@ class Snake:
         self.screen: Surface = screen
 
         self.size: int =  self.settings.snake_size
+        self.length: int = 1
+        self.current_length: int = 1
         self.speed_x, self.speed_y = 0, 0
 
         self.head: Node = Node(self.settings)
+
+    def get_size(self) -> int:
+        count: int = 1
+        current_node: Node = self.head
+        
+        while current_node:
+            current_node = current_node.next
+            print(current_node)
+            count += 1
+
+        return count
 
     def update(self) -> None:
         # add new head
@@ -28,11 +41,14 @@ class Snake:
         self.head = new_head
 
         # delete the tail
-        current_node: Node = self.head
-        while current_node.next and current_node.next.next:
-            current_node = current_node.next
+        if self.length == self.current_length:
+            current_node: Node = self.head
+            while current_node.next and current_node.next.next:
+                current_node = current_node.next
 
-        current_node.next = None
+            current_node.next = None
+        else:
+            self.current_length += 1
 
     def draw_snake(self) -> None:
         current_node: Node = self.head
