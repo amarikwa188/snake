@@ -89,7 +89,7 @@ class UIHandler:
         image: Surface = self.game_over_font.render(text, True, (100,100,100))
         image_rect: Rect = image.get_rect()
         image_rect.centerx = self.screen_rect.centerx
-        image_rect.centery = 60
+        image_rect.centery = 55
 
         self.screen.blit(image, image_rect)
 
@@ -98,7 +98,7 @@ class UIHandler:
                                                        (100,100,100))
         image2_rect: Rect = image2.get_rect()
         image2_rect.centerx = self.screen_rect.centerx
-        image2_rect.centery = 105
+        image2_rect.centery = 100
 
         self.screen.blit(image2, image2_rect)
     

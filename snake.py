@@ -40,17 +40,6 @@ class Snake:
         new_x = self.head.x_pos + self.speed_x
         new_y = self.head.y_pos + self.speed_y
 
-        # check if out of bounds
-        out_of_bounds_x: bool = self.settings.screen_width < new_x or \
-                                new_x < 0
-        out_of_bounds_y: bool = self.settings.screen_height < new_y or \
-                                new_y < 0
-        
-        if out_of_bounds_x or out_of_bounds_y:
-            self.scene.game_screen_active = False
-            self.scene.end_screen_active = True
-            return
-
         # add new head
         new_head: Node = Node(self.settings)
 
@@ -59,8 +48,6 @@ class Snake:
 
         new_head.next = self.head
         self.head = new_head
-
-        
 
         # delete the tail or add
         if self.length == self.current_length:
@@ -110,6 +97,18 @@ class Snake:
                                         self.settings.body_color
 
             pygame.draw.rect(self.screen, color, rect)
+
+            # check if out of bounds
+            if current_node == self.head:
+                out_of_bounds: bool = rect.left <= 0 or\
+                      rect.right >= self.settings.screen_width or\
+                      rect.top <= 0 or \
+                      rect.bottom >= self.settings.screen_height
+                if out_of_bounds:
+                    self.scene.game_screen_active = False
+                    self.scene.end_screen_active = True
+                    return
+                
             current_node = current_node.next
 
 
