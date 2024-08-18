@@ -4,6 +4,7 @@ import pygame
 from pygame import Surface, Rect
 
 from game_settings import Settings
+from ui_handler import UIHandler
 
 
 class Node:
@@ -14,9 +15,11 @@ class Node:
         self.next: Node | None = None
 
 class Snake:
-    def __init__(self, settings: Settings, screen: Surface) -> None:
+    def __init__(self, settings: Settings, screen: Surface,
+                 ui: UIHandler) -> None:
         self.settings: Settings = settings
         self.screen: Surface = screen
+        self.ui: UIHandler = ui
 
         self.size: int =  self.settings.snake_size
         self.length: int = 1
@@ -26,6 +29,7 @@ class Snake:
         self.head: Node = Node(self.settings)
 
         self.fruit: tuple[int,int] = (0,0)
+        self.spawn_fruit()
 
     def update(self) -> None:
         # add new head
@@ -52,6 +56,7 @@ class Snake:
         # check for fruit
         if (new_x, new_y) == self.fruit:
             self.length += 1
+            self.ui.score += 1
             self.spawn_fruit()
             
 
@@ -79,8 +84,8 @@ class Snake:
 
     def spawn_fruit(self) -> None:
         current_pos: tuple[int,int] = self.fruit
-        new_x: int = rng.randint(0,29) * 10
-        new_y: int = rng.randint(0,19) * 10
+        new_x: int = rng.randint(1,28) * 10
+        new_y: int = rng.randint(1,18) * 10
         new_pos: tuple[int,int] = (new_x, new_y)
 
         current_node: Node | None = self.head
@@ -90,8 +95,8 @@ class Snake:
             current_node = current_node.next
 
         while current_pos == new_pos or new_pos in positions:
-            new_x = rng.randint(0,29) * 10
-            new_y = rng.randint(0,19) * 10
+            new_x = rng.randint(1,28) * 10
+            new_y = rng.randint(1,18) * 10
             new_pos = (new_x, new_y)
 
         self.fruit = (new_x, new_y)
