@@ -29,8 +29,6 @@ def check_keydown_events(event: Event, snake: Snake) -> None:
     elif event.key == pygame.K_LEFT and not snake.speed_x:
         snake.speed_x = -snake.size
         snake.speed_y = 0
-    elif event.key == pygame.K_SPACE:
-        snake.length += 1
 
 
 def update_screen(settings: Settings, screen: Surface, snake: Snake) -> None:
