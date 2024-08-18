@@ -4,3 +4,5 @@ class Settings:
         self.screen_height: int  = 400
 
         self.bg_color: tuple[int,int,int] = (240,240,200)
+        self.head_color: tuple[int,int,int] = (0,0,0)
+        self.body_color: tuple[int,int,int] = (100,100,100)
