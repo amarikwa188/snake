@@ -16,6 +16,8 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, snake, ui, scene)
+        elif not scene.game_screen_active and event.type == ui.BLINKEVENT:
+            ui.play_current = next(ui.play_blinker)
 
 
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
@@ -37,6 +39,9 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
             ui.moving = True
             snake.speed_x = -snake.size
             snake.speed_y = 0
+    
+    if event.key == pygame.K_ESCAPE and scene.game_screen_active:
+        scene.game_paused = not scene.game_paused
 
 
 def update_screen(settings: Settings, screen: Surface, ui: UIHandler,

@@ -100,14 +100,14 @@ class Snake:
 
             # check if out of bounds
             if current_node == self.head:
-                out_of_bounds: bool = rect.left <= 0 or\
-                      rect.right >= self.settings.screen_width or\
+                out_of_bounds: bool = rect.left <= 0 or \
+                      rect.right >= self.settings.screen_width or \
                       rect.top <= 0 or \
                       rect.bottom >= self.settings.screen_height
                 if out_of_bounds:
                     self.scene.game_screen_active = False
                     self.scene.end_screen_active = True
-                    return
+                    pygame.time.set_timer(self.ui.BLINKEVENT, 500)
                 
             current_node = current_node.next
 
