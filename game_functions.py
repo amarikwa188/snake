@@ -17,16 +17,16 @@ def check_events(snake: Snake) -> None:
 
 
 def check_keydown_events(event: Event, snake: Snake) -> None:
-    if event.key == pygame.K_UP:
+    if event.key == pygame.K_UP and not snake.speed_y:
         snake.speed_x = 0
         snake.speed_y = -snake.size
-    elif event.key == pygame.K_DOWN:
+    elif event.key == pygame.K_DOWN and not snake.speed_y:
         snake.speed_x = 0
         snake.speed_y = snake.size
-    elif event.key == pygame.K_RIGHT:
+    elif event.key == pygame.K_RIGHT and not snake.speed_x:
         snake.speed_x = snake.size
         snake.speed_y = 0
-    elif event.key == pygame.K_LEFT:
+    elif event.key == pygame.K_LEFT and not snake.speed_x:
         snake.speed_x = -snake.size
         snake.speed_y = 0
     elif event.key == pygame.K_SPACE:

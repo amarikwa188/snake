@@ -1,6 +1,5 @@
 import pygame
 from pygame import Surface, Rect
-from pygame.sprite import Sprite
 
 from game_settings import Settings
 
@@ -17,17 +16,6 @@ class Snake:
 
         self.head: Node = Node(self.settings)
 
-    def get_size(self) -> int:
-        count: int = 1
-        current_node: Node = self.head
-        
-        while current_node:
-            current_node = current_node.next
-            print(current_node)
-            count += 1
-
-        return count
-
     def update(self) -> None:
         # add new head
         new_head: Node = Node(self.settings)
@@ -40,7 +28,7 @@ class Snake:
         new_head.next = self.head
         self.head = new_head
 
-        # delete the tail
+        # delete the tail or add
         if self.length == self.current_length:
             current_node: Node = self.head
             while current_node.next and current_node.next.next:
