@@ -81,9 +81,17 @@ class Snake:
         current_pos: tuple[int,int] = self.fruit
         new_x: int = rng.randint(0,29) * 10
         new_y: int = rng.randint(0,19) * 10
+        new_pos: tuple[int,int] = (new_x, new_y)
 
-        while current_pos == (new_x, new_y):
-            new_x: int = rng.randint(0,29) * 10
-            new_y: int = rng.randint(0,19) * 10
+        current_node: Node | None = self.head
+        positions: list[tuple[int,int]] = []
+        while current_node:
+            positions.append((current_node.x_pos, current_node.y_pos))
+            current_node = current_node.next
+
+        while current_pos == new_pos or new_pos in positions:
+            new_x = rng.randint(0,29) * 10
+            new_y = rng.randint(0,19) * 10
+            new_pos = (new_x, new_y)
 
         self.fruit = (new_x, new_y)
