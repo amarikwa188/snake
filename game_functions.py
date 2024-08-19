@@ -23,19 +23,23 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
                          scene: SceneManager) -> None:
     if not scene.game_paused:
-        if event.key in (pygame.K_UP, pygame.K_w) and not snake.speed_y:
+        if event.key in (pygame.K_UP, pygame.K_w) and \
+            (not snake.speed_y or snake.length == 1):
             ui.moving = True
             snake.speed_x = 0
             snake.speed_y = -snake.size
-        elif event.key in (pygame.K_DOWN, pygame.K_s)and not snake.speed_y:
+        elif event.key in (pygame.K_DOWN, pygame.K_s)and \
+            (not snake.speed_y or snake.length == 1):
             ui.moving = True
             snake.speed_x = 0
             snake.speed_y = snake.size
-        elif event.key in (pygame.K_RIGHT, pygame.K_d)and not snake.speed_x:
+        elif event.key in (pygame.K_RIGHT, pygame.K_d)and \
+            (not snake.speed_x or snake.length == 1):
             ui.moving = True
             snake.speed_x = snake.size
             snake.speed_y = 0
-        elif event.key in (pygame.K_LEFT, pygame.K_a) and not snake.speed_x:
+        elif event.key in (pygame.K_LEFT, pygame.K_a) and \
+            (not snake.speed_x or snake.length == 1):
             ui.moving = True
             snake.speed_x = -snake.size
             snake.speed_y = 0
