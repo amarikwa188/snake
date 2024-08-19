@@ -34,10 +34,11 @@ class UIHandler:
             SysFont(None, 50)
         self.score_color: tuple[int,int,int] = self.settings.score_color
 
-        menu_font: str = "Courier New"
+        menu_font = "Trebuchet MS"
         self.game_over_font: Font = pygame.font.SysFont(menu_font, 45)
         self.final_score_font: Font = pygame.font.SysFont(menu_font, 18)
         self.blinker_font: Font = pygame.font.SysFont(menu_font, 15)
+        self.pause_font: Font = pygame.font.SysFont(menu_font, 50)
 
         # keep track of the score and whether the snake has started movings
         self.score: int = 0
@@ -59,6 +60,8 @@ class UIHandler:
         # game screen
         if self.scene.game_screen_active:
             self.game_display()
+            if self.scene.game_paused:
+                self.display_pause()
 
         # end screen
         if self.scene.end_screen_active:
@@ -125,6 +128,14 @@ class UIHandler:
 
         self.screen.blit(image1, image1_rect)
         self.screen.blit(image2, image2_rect)
+
+
+    def display_pause(self) -> None:
+        text: str = "PAUSED"
+        image: Surface = self.pause_font.render(text, True, (0,0,0))
+        image_rect: Rect = image.get_rect()
+        image_rect.center = self.screen_rect.center
+        self.screen.blit(image, image_rect)
 
 
     def display_game_over(self) -> None:
