@@ -40,7 +40,7 @@ class UIHandler:
         self.game_over_font: Font = pygame.font.SysFont(menu_font, 45)
         self.final_score_font: Font = pygame.font.SysFont(menu_font, 18)
         self.blinker_font: Font = pygame.font.SysFont(menu_font, 15)
-        self.pause_font: Font = pygame.font.SysFont(menu_font, 50)
+        self.pause_font: Font = pygame.font.SysFont(menu_font, 55)
         self.title_font: Font = pygame.font.SysFont(menu_font, 60)
         self.button_font: Font = pygame.font.SysFont(menu_font, 16)
 
@@ -257,7 +257,7 @@ class UIHandler:
 
         self.screen.blit(image, image_rect)
 
-        score: str = f"Final Score: {self.score}"
+        score: str = f"final score: {self.score}"
         image2: Surface = self.final_score_font.render(score, True, 
                                                        (0,0,0))
         image2_rect: Rect = image2.get_rect()
@@ -266,11 +266,11 @@ class UIHandler:
 
         self.screen.blit(image2, image2_rect)
 
-        highscore: str = f"High Score: {self.highscore}"
+        highscore: str = f"high score: {self.highscore}"
         image3: Surface = self.final_score_font.render(highscore, True,
                                                        (0,0,0))
         image3_rect: Rect = image3.get_rect()
-        image3_rect.centerx = self.screen_rect.centerx
+        image3_rect.centerx = self.screen_rect.centerx 
         image3_rect.centery = 120
 
         self.screen.blit(image3, image3_rect)

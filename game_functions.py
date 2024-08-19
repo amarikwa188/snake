@@ -26,7 +26,7 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
 
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
                          scene: SceneManager) -> None:
-    if not scene.game_paused:
+    if scene.game_screen_active and not scene.game_paused:
         if event.key in (pygame.K_UP, pygame.K_w) and \
             (not snake.speed_y or snake.length == 1):
             ui.moving = True
