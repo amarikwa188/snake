@@ -18,6 +18,10 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
             check_keydown_events(event, snake, ui, scene)
         elif not scene.game_screen_active and event.type == ui.BLINKEVENT:
             ui.play_current = next(ui.play_blinker)
+        elif scene.start_screen_active and event.type == pygame.MOUSEBUTTONDOWN:
+            if ui.start_hover:
+                scene.start_screen_active = False
+                scene.game_screen_active = True
 
 
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,

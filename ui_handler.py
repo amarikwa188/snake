@@ -26,6 +26,7 @@ class UIHandler:
         self.screen_rect: Rect = self.screen.get_rect()
 
         # set up fonts and text colors
+        ## game fonts
         self.score_font_single: Font = pygame.font.\
             SysFont(None, 300)
         self.score_font_double: Font = pygame.font.\
@@ -34,11 +35,14 @@ class UIHandler:
             SysFont(None, 50)
         self.score_color: tuple[int,int,int] = self.settings.score_color
 
+        # menu fonts
         menu_font = "Trebuchet MS"
         self.game_over_font: Font = pygame.font.SysFont(menu_font, 45)
         self.final_score_font: Font = pygame.font.SysFont(menu_font, 18)
         self.blinker_font: Font = pygame.font.SysFont(menu_font, 15)
         self.pause_font: Font = pygame.font.SysFont(menu_font, 50)
+        self.title_font: Font = pygame.font.SysFont(menu_font, 60)
+        self.button_font: Font = pygame.font.SysFont(menu_font, 16)
 
         # keep track of the score and whether the snake has started movings
         self.score: int = 0
@@ -61,6 +65,9 @@ class UIHandler:
                                           self.settings.screen_height//2)
         self.menu_part2: tuple[int,int] = (self.settings.screen_width//2 - 80,
                                           self.settings.screen_height//2)
+        
+        # start screen button
+        self.start_hover: bool = False
 
 
     def draw_ui(self) -> None:
@@ -70,6 +77,8 @@ class UIHandler:
         # start screen
         if self.scene.start_screen_active:
             self.start_screen_animation()
+            self.start_screen_title()
+            self.start_button()
 
         # game screen
         if self.scene.game_screen_active:
@@ -134,6 +143,39 @@ class UIHandler:
         part2_rect.x = new_x
         part2_rect.y = part2_y
         pygame.draw.rect(self.screen, self.settings.body_color,part2_rect)
+
+
+    def start_screen_title(self) -> None:
+        text: str = "SNAKE"
+        image: Surface = self.title_font.render(text, True, (0,0,0))
+        image_rect: Rect = image.get_rect()
+        image_rect.centerx = self.screen_rect.centerx
+        image_rect.centery = self.screen_rect.centery - 20
+        self.screen.blit(image, image_rect)
+
+
+    def start_button(self) -> None:
+        button: Rect = Rect(0,0, 60,25)
+        button.centerx = self.screen_rect.centerx
+        button.centery = self.screen_rect.centery + 40
+
+        text: str = 'PLAY'
+        message: Surface = self.button_font.render(text, True, (255,255,255))
+        message_rect: Rect = message.get_rect()
+        message_rect.center = button.center
+
+        button_color: tuple[int,int,int] = (0,0,0)
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        self.start_hover = False
+
+        if button.left < mouse_x < button.right and \
+            button.top < mouse_y < button.bottom:
+            button_color = (100,100,100)
+            self.start_hover = True
+
+        self.screen.fill(button_color, button)
+        self.screen.blit(message, message_rect)
 
 
     def game_display(self) -> None:
