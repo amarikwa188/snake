@@ -9,7 +9,13 @@ from scene_manager import SceneManager
 
 
 class Node:
+    """Represents a single section of the snake's body."""
     def __init__(self, settings: Settings) -> None:
+        """
+        Initializes a node.
+
+        :param settings: a reference to the game settings.
+        """
         self.x_pos: int = settings.screen_width // 2
         self.y_pos: int = settings.screen_height // 2
 
@@ -17,8 +23,12 @@ class Node:
 
 
 class Snake:
+    """A linked list representing the snake."""
     def __init__(self, settings: Settings, screen: Surface,
                  ui: UIHandler, scene: SceneManager) -> None:
+        """
+        Initializes a snake object.
+        """
         self.settings: Settings = settings
         self.screen: Surface = screen
         self.ui: UIHandler = ui
@@ -74,6 +84,7 @@ class Snake:
             if (new_x,new_y) == (current_node.x_pos,current_node.y_pos):
                 self.scene.game_screen_active = False
                 self.scene.end_screen_active = True
+                pygame.time.set_timer(self.ui.BLINKEVENT, 500)
                 return
             current_node = current_node.next
             
@@ -100,10 +111,10 @@ class Snake:
 
             # check if out of bounds
             if current_node == self.head:
-                out_of_bounds: bool = rect.left <= 0 or \
-                      rect.right >= self.settings.screen_width or \
-                      rect.top <= 0 or \
-                      rect.bottom >= self.settings.screen_height
+                out_of_bounds: bool = rect.left < 0 or \
+                      rect.right > self.settings.screen_width or \
+                      rect.top < 0 or \
+                      rect.bottom > self.settings.screen_height
                 if out_of_bounds:
                     self.scene.game_screen_active = False
                     self.scene.end_screen_active = True
@@ -130,3 +141,13 @@ class Snake:
             new_pos = (new_x, new_y)
 
         self.fruit = (new_x, new_y)
+
+
+    def reset_snake(self) -> None:
+        self.head.next = None
+        self.head.x_pos = self.settings.screen_width // 2
+        self.head.y_pos = self.settings.screen_height // 2
+
+        self.length: int = 1
+        self.current_length: int = 1
+        self.speed_x, self.speed_y = 0, 0

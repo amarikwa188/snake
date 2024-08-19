@@ -11,6 +11,7 @@ from snake import Snake
 
 def run_game() -> None:
     pygame.init()
+    pygame.display.set_caption("Snake")
     settings: Settings = Settings()
     screen: Surface = pygame.display.set_mode((settings.screen_width,
                                                settings.screen_height))
@@ -25,7 +26,7 @@ def run_game() -> None:
         clock.tick(snake.size)
         gf.check_events(snake, ui_handler, scene_manager)
 
-        if not scene_manager.game_paused:
+        if scene_manager.game_screen_active	and not scene_manager.game_paused:
             snake.update()
 
         gf.update_screen(settings, screen, ui_handler, scene_manager, snake)

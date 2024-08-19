@@ -47,6 +47,19 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
     if event.key == pygame.K_ESCAPE and scene.game_screen_active:
         scene.game_paused = not scene.game_paused
 
+    if not scene.game_screen_active and event.key == pygame.K_p:
+        reset_game(ui, scene, snake)
+
+
+def reset_game(ui: UIHandler, scene: SceneManager, snake: Snake) -> None:
+    # reset the score
+    ui.score = 0
+    #reset the snake
+    snake.reset_snake()
+    # change scenes
+    scene.end_screen_active = False
+    scene.game_screen_active = True
+
 
 def update_screen(settings: Settings, screen: Surface, ui: UIHandler,
                   scene: SceneManager, snake: Snake) -> None:
