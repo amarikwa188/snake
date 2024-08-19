@@ -7,6 +7,8 @@ from game_settings import Settings
 from ui_handler import UIHandler
 from scene_manager import SceneManager
 
+import shelve
+
 
 class Node:
     """Represents a single section of the snake's body."""
@@ -58,6 +60,15 @@ class Snake:
         self.fruit: tuple[int,int] = (0,0)
         self.spawn_fruit()
 
+        # load highscore
+        self.highscore = 0
+        self.data: shelve.Shelf = shelve.open("save_data/hs.txt")
+        try:
+            self.highscore: int = self.data["hs"]
+        except KeyError:
+            self.data["hs"] = self.highscore
+        self.data.close()
+
 
     def update(self) -> None:
         """
@@ -99,9 +110,7 @@ class Snake:
         current_node: Node | None = self.head.next
         while current_node:
             if (new_x,new_y) == (current_node.x_pos,current_node.y_pos):
-                self.scene.game_screen_active = False
-                self.scene.end_screen_active = True
-                pygame.time.set_timer(self.ui.BLINKEVENT, 500)
+                self.end_game()
                 return
             current_node = current_node.next
             
@@ -136,9 +145,7 @@ class Snake:
                       rect.top < 0 or \
                       rect.bottom > self.settings.screen_height
                 if out_of_bounds:
-                    self.scene.game_screen_active = False
-                    self.scene.end_screen_active = True
-                    pygame.time.set_timer(self.ui.BLINKEVENT, 500)
+                    self.end_game()
                 
             current_node = current_node.next
 
@@ -167,6 +174,21 @@ class Snake:
 
         # set fruit position
         self.fruit = (new_x, new_y)
+
+    
+    def end_game(self) -> None:
+        self.scene.game_screen_active = False
+        self.scene.end_screen_active = True
+        pygame.time.set_timer(self.ui.BLINKEVENT, 500)
+
+        if self.ui.score > self.highscore:
+            self.highscore = self.ui.score
+
+        self.data: shelve.Shelf = shelve.open("save_data/hs.txt")
+        self.data["hs"] = self.highscore
+        self.data.close() 
+
+        print(self.highscore)
 
 
     def reset_snake(self) -> None:
