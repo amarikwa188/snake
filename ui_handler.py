@@ -52,11 +52,25 @@ class UIHandler:
         self.play_blinker, self.play_rect = self.blinker(play_text)
         self.play_current: Surface = next(self.play_blinker)
 
+        # for start screen animation
+        self.menu_fruit: tuple[int,int] = (self.settings.screen_width//2,
+                                           self.settings.screen_height//2)
+        self.menu_head: tuple[int,int] = (self.settings.screen_width//2 - 60,
+                                          self.settings.screen_height//2)
+        self.menu_part1: tuple[int,int] = (self.settings.screen_width//2 - 70,
+                                          self.settings.screen_height//2)
+        self.menu_part2: tuple[int,int] = (self.settings.screen_width//2 - 80,
+                                          self.settings.screen_height//2)
+
 
     def draw_ui(self) -> None:
         """
         Draw the ui to the screen.
         """
+        # start screen
+        if self.scene.start_screen_active:
+            self.start_screen_animation()
+
         # game screen
         if self.scene.game_screen_active:
             self.game_display()
@@ -67,6 +81,59 @@ class UIHandler:
         if self.scene.end_screen_active:
             self.display_game_over()
             self.screen.blit(self.play_current, self.play_rect)
+
+
+    def start_screen_animation(self) -> None:
+        size: int = self.settings.snake_size
+        fruit_y: int = self.menu_fruit[1] % self.settings.screen_height
+        head_y: int = self.menu_head[1] % self.settings.screen_height
+        part1_y: int = self.menu_part1[1] % self.settings.screen_height
+        part2_y: int = self.menu_part2[1] % self.settings.screen_height
+
+        # fruit animation
+        new_x: int = (self.menu_fruit[0] + 10)
+        if new_x == self.settings.screen_width:
+            fruit_y += 10
+        new_x = new_x % self.settings.screen_width
+        self.menu_fruit = (new_x, fruit_y)
+        fruit_rect: Rect = Rect(0,0,size,size)
+        fruit_rect.x = new_x
+        fruit_rect.y = fruit_y
+        pygame.draw.rect(self.screen, self.settings.fruit_color,fruit_rect)
+        
+        # snake animation
+        ## head
+        new_x = (self.menu_head[0] + 10) 
+        if new_x == self.settings.screen_width:
+            head_y += 10
+        new_x = new_x % self.settings.screen_width
+        self.menu_head = (new_x, head_y)
+        head_rect: Rect = Rect(0,0,size,size)
+        head_rect.x = new_x
+        head_rect.y = head_y
+        pygame.draw.rect(self.screen, self.settings.head_color, head_rect)
+
+        ## part 1
+        new_x = (self.menu_part1[0] + 10) 
+        if new_x == self.settings.screen_width:
+            part1_y += 10
+        new_x = new_x % self.settings.screen_width
+        self.menu_part1 = (new_x, part1_y)
+        part1_rect: Rect = Rect(0,0,size,size)
+        part1_rect.x = new_x
+        part1_rect.y = part1_y
+        pygame.draw.rect(self.screen, self.settings.body_color,part1_rect)
+
+        ## part 2
+        new_x = (self.menu_part2[0] + 10) 
+        if new_x == self.settings.screen_width:
+            part2_y += 10
+        new_x = new_x % self.settings.screen_width
+        self.menu_part2 = (new_x, part2_y)
+        part2_rect: Rect = Rect(0,0,size,size)
+        part2_rect.x = new_x
+        part2_rect.y = part2_y
+        pygame.draw.rect(self.screen, self.settings.body_color,part2_rect)
 
 
     def game_display(self) -> None:
