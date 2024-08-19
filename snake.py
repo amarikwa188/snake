@@ -28,24 +28,41 @@ class Snake:
                  ui: UIHandler, scene: SceneManager) -> None:
         """
         Initializes a snake object.
+
+        :param settings: the game settings.
+        :param screen: a reference to the screen.
+        :param ui: a reference to the ui handler.
+        :param scene: the scene manager.
         """
+        # set up references to the settings, screen, ui and scene managers
         self.settings: Settings = settings
         self.screen: Surface = screen
         self.ui: UIHandler = ui
         self.scene: SceneManager = scene
 
+        # set size of a the snake's parts
         self.size: int =  self.settings.snake_size
+
+        # set the length that the snake should be as well as the current
+        # number of nodes
         self.length: int = 1
         self.current_length: int = 1
+
+        # set the speed of the snake
         self.speed_x, self.speed_y = 0, 0
 
+        # create a head node
         self.head: Node = Node(self.settings)
 
+        # spawn a fruit
         self.fruit: tuple[int,int] = (0,0)
         self.spawn_fruit()
 
 
     def update(self) -> None:
+        """
+        Update the position of the snake.
+        """
         # get new position
         new_x = self.head.x_pos + self.speed_x
         new_y = self.head.y_pos + self.speed_y
@@ -90,6 +107,9 @@ class Snake:
             
 
     def draw_snake(self) -> None:
+        """
+        Draw the each node of the snake in the appropriate positions.
+        """
         # draw fruit
         fruit_rect: Rect = Rect(0,0, self.size, self.size)
         fruit_rect.x, fruit_rect.y = self.fruit[0], self.fruit[1]
@@ -124,6 +144,11 @@ class Snake:
 
 
     def spawn_fruit(self) -> None:
+        """
+        Spawn a fruit in a random position.
+        """
+        # ensure the fruit is in a new position and not on the
+        # snake's tail
         current_pos: tuple[int,int] = self.fruit
         new_x: int = rng.randint(1,28) * 10
         new_y: int = rng.randint(1,18) * 10
@@ -140,14 +165,22 @@ class Snake:
             new_y = rng.randint(1,18) * 10
             new_pos = (new_x, new_y)
 
+        # set fruit position
         self.fruit = (new_x, new_y)
 
 
     def reset_snake(self) -> None:
+        """
+        Reset the snake at the start of a new game.
+        """
+        # delete all tail nodes
         self.head.next = None
+
+        # reset the position
         self.head.x_pos = self.settings.screen_width // 2
         self.head.y_pos = self.settings.screen_height // 2
 
+        # reset the length and speed attributes
         self.length: int = 1
         self.current_length: int = 1
         self.speed_x, self.speed_y = 0, 0
