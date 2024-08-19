@@ -125,7 +125,7 @@ class Snake:
         pygame.draw.rect(self.screen, self.settings.fruit_color, fruit_rect)
 
         # draw snake
-        current_node: Node = self.head
+        current_node: Node | None = self.head
 
         while current_node:
             rect: Rect = Rect(0,0, self.size, self.size)
@@ -148,6 +148,9 @@ class Snake:
                     self.end_game()
                 
             current_node = current_node.next
+
+        if self.scene.game_paused:
+           self.ui.display_pause()
 
 
     def spawn_fruit(self) -> None:

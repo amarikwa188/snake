@@ -83,9 +83,7 @@ class UIHandler:
         # game screen
         if self.scene.game_screen_active:
             self.game_display()
-            if self.scene.game_paused:
-                self.display_pause()
-
+            
         # end screen
         if self.scene.end_screen_active:
             self.display_game_over()
@@ -252,7 +250,7 @@ class UIHandler:
         Display a game over message and the final score on the end screen.
         """
         text: str = "GAME OVER"
-        image: Surface = self.game_over_font.render(text, True, (0,0,0))
+        image: Surface = self.game_over_font.render(text, True, (200,0,0))
         image_rect: Rect = image.get_rect()
         image_rect.centerx = self.screen_rect.centerx
         image_rect.centery = 50
