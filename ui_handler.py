@@ -34,12 +34,14 @@ class UIHandler:
             SysFont(None, 50)
         self.score_color: tuple[int,int,int] = self.settings.score_color
 
-        self.game_over_font: Font = pygame.font.SysFont(None, 60)
-        self.final_score_font: Font = pygame.font.SysFont(None, 35)
-        self.blinker_font: Font = pygame.font.SysFont(None, 30)
+        menu_font: str = "Courier New"
+        self.game_over_font: Font = pygame.font.SysFont(menu_font, 45)
+        self.final_score_font: Font = pygame.font.SysFont(menu_font, 18)
+        self.blinker_font: Font = pygame.font.SysFont(menu_font, 15)
 
         # keep track of the score and whether the snake has started movings
         self.score: int = 0
+        self.highscore: int  = 0
         self.moving: bool = False
 
         # handle blinking text
@@ -133,7 +135,7 @@ class UIHandler:
         image: Surface = self.game_over_font.render(text, True, (0,0,0))
         image_rect: Rect = image.get_rect()
         image_rect.centerx = self.screen_rect.centerx
-        image_rect.centery = 55
+        image_rect.centery = 50
 
         self.screen.blit(image, image_rect)
 
@@ -142,9 +144,18 @@ class UIHandler:
                                                        (0,0,0))
         image2_rect: Rect = image2.get_rect()
         image2_rect.centerx = self.screen_rect.centerx
-        image2_rect.centery = 100
+        image2_rect.centery = 95
 
         self.screen.blit(image2, image2_rect)
+
+        highscore: str = f"High Score: {self.highscore}"
+        image3: Surface = self.final_score_font.render(highscore, True,
+                                                       (0,0,0))
+        image3_rect: Rect = image3.get_rect()
+        image3_rect.centerx = self.screen_rect.centerx
+        image3_rect.centery = 120
+
+        self.screen.blit(image3, image3_rect)
     
 
     def blinker(self, text: str) -> tuple[cycle, Rect]:

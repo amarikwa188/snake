@@ -186,9 +186,8 @@ class Snake:
 
         self.data: shelve.Shelf = shelve.open("save_data/hs.txt")
         self.data["hs"] = self.highscore
+        self.ui.highscore = self.highscore
         self.data.close() 
-
-        print(self.highscore)
 
 
     def reset_snake(self) -> None:
