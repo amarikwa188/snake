@@ -202,6 +202,9 @@ class Snake:
         self.ui.highscore = self.highscore
         self.data.close() 
 
+        # play sfx
+        self.audio.lose_sound.play()
+
 
     def reset_snake(self) -> None:
         """
