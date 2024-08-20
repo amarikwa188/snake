@@ -149,6 +149,7 @@ class Snake:
                 
             current_node = current_node.next
 
+        # display pause screen over snake
         if self.scene.game_paused:
            self.ui.display_pause()
 
@@ -180,10 +181,15 @@ class Snake:
 
     
     def end_game(self) -> None:
+        """
+        End the game when the player loses.
+        """
+        # switch scenes
         self.scene.game_screen_active = False
         self.scene.end_screen_active = True
         pygame.time.set_timer(self.ui.BLINKEVENT, 500)
 
+        # update and save highscore
         if self.ui.score > self.highscore:
             self.highscore = self.ui.score
 

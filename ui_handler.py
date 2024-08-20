@@ -91,6 +91,10 @@ class UIHandler:
 
 
     def start_screen_animation(self) -> None:
+        """
+        Handles the start menu animation of the snake chasing a fruit across
+        the screen.
+        """
         size: int = self.settings.snake_size
         fruit_y: int = self.menu_fruit[1] % self.settings.screen_height
         head_y: int = self.menu_head[1] % self.settings.screen_height
@@ -144,6 +148,9 @@ class UIHandler:
 
 
     def start_screen_title(self) -> None:
+        """
+        Display the game title.
+        """
         text: str = "SNAKE"
         image: Surface = self.title_font.render(text, True, (0,0,0))
         image_rect: Rect = image.get_rect()
@@ -153,15 +160,21 @@ class UIHandler:
 
 
     def start_button(self) -> None:
+        """
+        Create and display the play button on the start menu.
+        """
+        # create and position button background
         button: Rect = Rect(0,0, 60,25)
         button.centerx = self.screen_rect.centerx
         button.centery = self.screen_rect.centery + 40
 
+        # create and render text
         text: str = 'PLAY'
         message: Surface = self.button_font.render(text, True, (255,255,255))
         message_rect: Rect = message.get_rect()
         message_rect.center = button.center
 
+        # handle background change when the mouse hovers over the button
         button_color: tuple[int,int,int] = (0,0,0)
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -172,6 +185,7 @@ class UIHandler:
             button_color = (100,100,100)
             self.start_hover = True
 
+        # draw the button to the screen
         self.screen.fill(button_color, button)
         self.screen.blit(message, message_rect)
 
@@ -238,6 +252,9 @@ class UIHandler:
 
 
     def display_pause(self) -> None:
+        """
+        Display the pause screen ui.
+        """
         text: str = "PAUSED"
         image: Surface = self.pause_font.render(text, True, (0,0,0))
         image_rect: Rect = image.get_rect()

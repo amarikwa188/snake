@@ -19,7 +19,6 @@ def run_game() -> None:
     ui_handler: UIHandler = UIHandler(settings, screen, scene_manager)
     clock: Clock = pygame.time.Clock()
 
-
     snake: Snake = Snake(settings, screen, ui_handler, scene_manager)
 
     while True:
