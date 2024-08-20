@@ -32,6 +32,7 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager,
             if ui.start_hover:
                 scene.start_screen_active = False
                 scene.game_screen_active = True
+                audio.action_sound.play()
 
 
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
@@ -71,9 +72,11 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
             audio.move_sound.play()
     
     if event.key == pygame.K_ESCAPE and scene.game_screen_active:
+        audio.action_sound.play()
         scene.game_paused = not scene.game_paused
 
     if scene.end_screen_active and event.key == pygame.K_p:
+        audio.action_sound.play()
         reset_game(ui, scene, snake)
 
 
