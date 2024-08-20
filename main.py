@@ -6,6 +6,7 @@ from game_settings import Settings
 import game_functions as gf
 from ui_handler import UIHandler
 from scene_manager import SceneManager
+from audio_handler import AudioHandler
 from snake import Snake
 
 
@@ -17,9 +18,11 @@ def run_game() -> None:
                                                settings.screen_height))
     scene_manager: SceneManager = SceneManager()
     ui_handler: UIHandler = UIHandler(settings, screen, scene_manager)
+    audio_handler: AudioHandler = AudioHandler()
     clock: Clock = pygame.time.Clock()
 
-    snake: Snake = Snake(settings, screen, ui_handler, scene_manager)
+    snake: Snake = Snake(settings, screen, ui_handler, scene_manager,
+                         audio_handler)
 
     while True:
         clock.tick(snake.size)

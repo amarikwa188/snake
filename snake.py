@@ -6,6 +6,7 @@ from pygame import Surface, Rect
 from game_settings import Settings
 from ui_handler import UIHandler
 from scene_manager import SceneManager
+from audio_handler import AudioHandler
 
 import shelve
 
@@ -27,7 +28,8 @@ class Node:
 class Snake:
     """A linked list representing the snake."""
     def __init__(self, settings: Settings, screen: Surface,
-                 ui: UIHandler, scene: SceneManager) -> None:
+                 ui: UIHandler, scene: SceneManager,
+                 audio: AudioHandler) -> None:
         """
         Initializes a snake object.
 
@@ -41,6 +43,7 @@ class Snake:
         self.screen: Surface = screen
         self.ui: UIHandler = ui
         self.scene: SceneManager = scene
+        self.audio: AudioHandler = audio
 
         # set size of a the snake's parts
         self.size: int =  self.settings.snake_size
@@ -102,6 +105,7 @@ class Snake:
             self.length += 1
             self.ui.score += 1
             self.spawn_fruit()
+            self.audio.fruit_sound.play()
 
         # check for collision with tail
         if not self.head.next:
