@@ -26,7 +26,7 @@ def run_game() -> None:
 
     while True:
         clock.tick(snake.size)
-        gf.check_events(snake, ui_handler, scene_manager)
+        gf.check_events(snake, ui_handler, scene_manager, audio_handler)
 
         if scene_manager.game_screen_active	and not scene_manager.game_paused:
             snake.update()

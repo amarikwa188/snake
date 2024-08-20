@@ -8,9 +8,11 @@ from game_settings import Settings
 from snake import Snake
 from ui_handler import UIHandler
 from scene_manager import SceneManager
+from audio_handler import AudioHandler
 
 
-def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
+def check_events(snake: Snake, ui: UIHandler, scene: SceneManager,
+                 audio: AudioHandler) -> None:
     """
     Handle user input events.
 
@@ -22,7 +24,7 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, snake, ui, scene)
+            check_keydown_events(event, snake, ui, scene, audio)
         elif not scene.game_screen_active and event.type == ui.BLINKEVENT:
             ui.play_current = next(ui.play_blinker)
         elif event.type == pygame.MOUSEBUTTONDOWN and \
@@ -33,7 +35,7 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager) -> None:
 
 
 def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
-                         scene: SceneManager) -> None:
+                         scene: SceneManager, audio: AudioHandler) -> None:
     """
     Handle key presses.
 
@@ -48,26 +50,30 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
             ui.moving = True
             snake.speed_x = 0
             snake.speed_y = -snake.size
+            audio.move_sound.play()
         elif event.key in (pygame.K_DOWN, pygame.K_s)and \
             (not snake.speed_y or snake.length == 1):
             ui.moving = True
             snake.speed_x = 0
             snake.speed_y = snake.size
+            audio.move_sound.play()
         elif event.key in (pygame.K_RIGHT, pygame.K_d)and \
             (not snake.speed_x or snake.length == 1):
             ui.moving = True
             snake.speed_x = snake.size
             snake.speed_y = 0
+            audio.move_sound.play()
         elif event.key in (pygame.K_LEFT, pygame.K_a) and \
             (not snake.speed_x or snake.length == 1):
             ui.moving = True
             snake.speed_x = -snake.size
             snake.speed_y = 0
+            audio.move_sound.play()
     
     if event.key == pygame.K_ESCAPE and scene.game_screen_active:
         scene.game_paused = not scene.game_paused
 
-    if not scene.game_screen_active and event.key == pygame.K_p:
+    if scene.end_screen_active and event.key == pygame.K_p:
         reset_game(ui, scene, snake)
 
 
