@@ -37,6 +37,7 @@ class Snake:
         :param screen: a reference to the screen.
         :param ui: a reference to the ui handler.
         :param scene: the scene manager.
+        :param audio: a reference to the audio handler.
         """
         # set up references to the settings, screen, ui and scene managers
         self.settings: Settings = settings

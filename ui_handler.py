@@ -95,6 +95,7 @@ class UIHandler:
         Handles the start menu animation of the snake chasing a fruit across
         the screen.
         """
+        # get cell size and y values for each element
         size: int = self.settings.snake_size
         fruit_y: int = self.menu_fruit[1] % self.settings.screen_height
         head_y: int = self.menu_head[1] % self.settings.screen_height
@@ -266,6 +267,7 @@ class UIHandler:
         """
         Display a game over message and the final score on the end screen.
         """
+        # display game over text
         text: str = "GAME OVER"
         image: Surface = self.game_over_font.render(text, True, (200,0,0))
         image_rect: Rect = image.get_rect()
@@ -274,6 +276,7 @@ class UIHandler:
 
         self.screen.blit(image, image_rect)
 
+        # display final score
         score: str = f"final score: {self.score}"
         image2: Surface = self.final_score_font.render(score, True, 
                                                        (0,0,0))
@@ -283,6 +286,7 @@ class UIHandler:
 
         self.screen.blit(image2, image2_rect)
 
+        # display high score
         highscore: str = f"high score: {self.highscore}"
         image3: Surface = self.final_score_font.render(highscore, True,
                                                        (0,0,0))
