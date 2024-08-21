@@ -3,13 +3,14 @@ from pygame.mixer import Sound
 
 
 class AudioHandler:
+    """Represents an instance of the audio manager."""
     def __init__(self) -> None:
-        # background music
+        """Initializes the audio handler object."""
+        # play background music
         mixer.init()
         mixer.music.load("audio_files/background.mp3")
         mixer.music.set_volume(0.05)
         mixer.music.play(-1)
-
 
         # sound effects
         self.fruit_sound: Sound = Sound("audio_files/score.mp3")
