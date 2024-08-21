@@ -19,14 +19,22 @@ def check_events(snake: Snake, ui: UIHandler, scene: SceneManager,
     :param snake: the snake game object.
     :param ui: a reference to the ui handler.
     :param scene: a reference to the screen manager.
+    :param audio: a reference to the audio handler.
     """
     for event in pygame.event.get():
+        # close window
         if event.type == pygame.QUIT:
             sys.exit()
+
+        # handle key presses
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, snake, ui, scene, audio)
+
+        # handle blinking text
         elif not scene.game_screen_active and event.type == ui.BLINKEVENT:
             ui.play_current = next(ui.play_blinker)
+
+        # start screen play button
         elif event.type == pygame.MOUSEBUTTONDOWN and \
               scene.start_screen_active:
             if ui.start_hover:
@@ -44,7 +52,9 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
     :param snake: the snake game object.
     :param ui: a reference to the ui handler.
     :param scene: a reference to the scene manager.
+    :param audio: a reference to the audio handler.
     """
+    # gameplay controls
     if scene.game_screen_active and not scene.game_paused:
         if event.key in (pygame.K_UP, pygame.K_w) and \
             (not snake.speed_y or snake.length == 1):
@@ -71,10 +81,12 @@ def check_keydown_events(event: Event, snake: Snake, ui: UIHandler,
             snake.speed_y = 0
             audio.move_sound.play()
     
+    # pause game
     if event.key == pygame.K_ESCAPE and scene.game_screen_active:
         audio.action_sound.play()
         scene.game_paused = not scene.game_paused
 
+    # play again after losing
     if scene.end_screen_active and event.key == pygame.K_p:
         audio.action_sound.play()
         reset_game(ui, scene, snake)
