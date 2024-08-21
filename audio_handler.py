@@ -7,7 +7,7 @@ class AudioHandler:
         # background music
         mixer.init()
         mixer.music.load("audio_files/background.mp3")
-        mixer.music.set_volume(0.2)
+        mixer.music.set_volume(0.05)
         mixer.music.play(-1)
 
 
