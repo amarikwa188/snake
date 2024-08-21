@@ -11,8 +11,12 @@ from snake import Snake
 
 
 def run_game() -> None:
+    # initialize window
     pygame.init()
     pygame.display.set_caption("Snake")
+
+    # set up game settings, clock, screen, scene manager and audio and
+    # ui handlers
     settings: Settings = Settings()
     screen: Surface = pygame.display.set_mode((settings.screen_width,
                                                settings.screen_height))
@@ -21,9 +25,11 @@ def run_game() -> None:
     audio_handler: AudioHandler = AudioHandler()
     clock: Clock = pygame.time.Clock()
 
+    # create snake game object
     snake: Snake = Snake(settings, screen, ui_handler, scene_manager,
                          audio_handler)
 
+    # game loop
     while True:
         clock.tick(snake.size)
         gf.check_events(snake, ui_handler, scene_manager, audio_handler)
